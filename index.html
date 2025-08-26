@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício: Identificação de Classes de IP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reference {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .reference h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .class-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .class-info:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .class-a { border-left: 4px solid #4CAF50; }
+        .class-b { border-left: 4px solid #FF9800; }
+        .class-c { border-left: 4px solid #F44336; }
+        
+        .exercise-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .ip-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #333;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(45deg, #f0f2ff, #e8ebff);
+            border-radius: 15px;
+            border: 2px dashed #667eea;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .class-btn-a {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+        
+        .class-btn-b {
+            background: linear-gradient(45deg, #FF9800, #f57c00);
+            color: white;
+        }
+        
+        .class-btn-c {
+            background: linear-gradient(45deg, #F44336, #d32f2f);
+            color: white;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .next-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+        
+        .correct {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            animation: pulse 0.6s ease-in-out;
+        }
+        
+        .incorrect {
+            background: linear-gradient(45deg, #F44336, #d32f2f);
+            color: white;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .score {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Identificação de Classes IP</h1>
+        
+        <div class="reference">
+            <h3>📚 Referência Rápida:</h3>
+            <div class="class-info class-a">
+                <span><strong>Classe A:</strong> 1 - 126</span>
+                <span>Máscara: /8</span>
+            </div>
+            <div class="class-info class-b">
+                <span><strong>Classe B:</strong> 128 - 191</span>
+                <span>Máscara: /16</span>
+            </div>
+            <div class="class-info class-c">
+                <span><strong>Classe C:</strong> 192 - 223</span>
+                <span>Máscara: /24</span>
+            </div>
+        </div>
+        
+        <div class="score">
+            📊 Pontuação: <span id="score">0</span> / <span id="total">0</span>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number" id="correct-count">0</div>
+                    <div class="stat-label">Corretas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="incorrect-count">0</div>
+                    <div class="stat-label">Incorretas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="accuracy">0%</div>
+                    <div class="stat-label">Precisão</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="exercise-area">
+            <h2>Qual é a classe deste endereço IP?</h2>
+            <div class="ip-display" id="current-ip">Clique em "Próximo IP" para começar!</div>
+            
+            <div class="buttons">
+                <button class="class-btn-a" onclick="checkAnswer('A')">Classe A</button>
+                <button class="class-btn-b" onclick="checkAnswer('B')">Classe B</button>
+                <button class="class-btn-c" onclick="checkAnswer('C')">Classe C</button>
+            </div>
+            
+            <button class="next-btn" onclick="generateNewIP()">🎲 Próximo IP</button>
+            
+            <div id="feedback" class="feedback" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentIP = '';
+        let correctClass = '';
+        let score = 0;
+        let total = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+        
+        // Banco de IPs para exercícios
+        const ipExamples = {
+            'A': [
+                '10.0.0.1', '25.150.200.100', '50.75.125.200', '100.200.50.75',
+                '15.30.45.60', '75.125.175.225', '45.90.135.180', '85.170.85.170',
+                '20.40.80.160', '110.220.110.220', '65.130.195.65', '95.190.95.190'
+            ],
+            'B': [
+                '172.16.254.1', '150.200.100.50', '180.90.45.225', '165.82.123.45',
+                '128.64.32.16', '191.95.47.23', '160.80.40.20', '175.87.43.21',
+                '145.72.36.18', '185.92.46.23', '155.77.38.19', '170.85.42.21'
+            ],
+            'C': [
+                '192.168.1.100', '200.100.50.25', '210.105.52.26', '195.97.48.24',
+                '205.102.51.25', '215.107.53.26', '198.99.49.24', '208.104.52.26',
+                '220.110.55.27', '193.96.48.24', '203.101.50.25', '218.109.54.27'
+            ]
+        };
+        
+        function generateNewIP() {
+            const classes = ['A', 'B', 'C'];
+            correctClass = classes[Math.floor(Math.random() * classes.length)];
+            const ips = ipExamples[correctClass];
+            currentIP = ips[Math.floor(Math.random() * ips.length)];
+            
+            document.getElementById('current-ip').textContent = currentIP;
+            document.getElementById('feedback').style.display = 'none';
+            
+            // Reset button states
+            const buttons = document.querySelectorAll('.class-btn-a, .class-btn-b, .class-btn-c');
+            buttons.forEach(btn => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            });
+        }
+        
+        function checkAnswer(selectedClass) {
+            total++;
+            const feedback = document.getElementById('feedback');
+            const firstOctet = parseInt(currentIP.split('.')[0]);
+            
+            let explanation = '';
+            let actualClass = '';
+            
+            // Determinar a classe correta baseada no primeiro octeto
+            if (firstOctet >= 1 && firstOctet <= 126) {
+                actualClass = 'A';
+            } else if (firstOctet >= 128 && firstOctet <= 191) {
+                actualClass = 'B';
+            } else if (firstOctet >= 192 && firstOctet <= 223) {
+                actualClass = 'C';
+            }
+            
+            if (selectedClass === actualClass) {
+                score++;
+                correctCount++;
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = `
+                    ✅ <strong>CORRETO!</strong><br>
+                    O IP ${currentIP} é Classe ${actualClass}<br>
+                    Primeiro octeto: ${firstOctet} (está no range da Classe ${actualClass})
+                `;
+            } else {
+                incorrectCount++;
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = `
+                    ❌ <strong>INCORRETO!</strong><br>
+                    Você escolheu Classe ${selectedClass}, mas o IP ${currentIP} é Classe ${actualClass}<br>
+                    Primeiro octeto: ${firstOctet} (está no range da Classe ${actualClass})<br>
+                    <small>Lembre-se: A(1-126), B(128-191), C(192-223)</small>
+                `;
+            }
+            
+            feedback.style.display = 'block';
+            updateScore();
+            
+            // Disable buttons after answer
+            const buttons = document.querySelectorAll('.class-btn-a, .class-btn-b, .class-btn-c');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.6';
+            });
+        }
+        
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('total').textContent = total;
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('incorrect-count').textContent = incorrectCount;
+            
+            const accuracy = total > 0 ? Math.round((score / total) * 100) : 0;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+        }
+        
+        // Inicializar com o primeiro IP
+        generateNewIP();
+    </script>
+</body>
+</html>
