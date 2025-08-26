@@ -52,3 +52,6 @@ Classe A → 1 – 126 → Máscara padrão: /8
 Classe B → 128 – 191 → Máscara padrão: /16
 
 Classe C → 192 – 223 → Máscara padrão: /24
+
+<img width="1901" height="944" alt="image" src="https://github.com/user-attachments/assets/c4add83e-e1f9-43d3-9baf-3dc7e1ceef2a" />
+
